@@ -34,7 +34,14 @@ pipeline {
                 sh """
                     oc login $OPENSHIFT_SERVER --token=$OPENSHIFT_TOKEN --insecure-skip-tls-verify
                     oc project $OPENSHIFT_PROJECT
-                    oc create deployment my-app --image=doaahemaid01/my-app:1.0
+                    #Check if the deployment exists
+                    if oc get deployment.apps/my-app; then
+                       echo "Deployment my-app already exists."
+                    else
+                       oc create deployment my-app --image=doaahemaid01/my-app:1.0
+                    fi
+                    #oc create deployment my-app --image=doaahemaid01/my-app:1.0
+                    
                     oc rollout status deployment.apps/my-app
                 """
             }

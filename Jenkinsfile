@@ -6,11 +6,11 @@ pipeline {
             steps {
                 echo 'Building...'
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-log',
-                                  usernameVariable: 'DEPLOY_USER', passwordVariable: 'DEPLOY_PASSWORD')]) 
+                                  usernameVariable: 'USER', passwordVariable: 'PASSWORD')]) 
                 {
                     sh """
                         docker build -t doaahemaid01/my-app:1.0 .
-                        echo $passwd | docker login --username $username --password-stdin
+                        echo $PASSWORD | docker login --username $USER --password-stdin
                         docker push doaahemaid01/my-app:1.0 
                     """
                 }

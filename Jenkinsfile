@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         DOCKERHUB_CREDENTIALS = credentials('docker-hub-log')
-        KUBE_TOKEN = credentials('kube-token-dev')
+        KUBE_TOKEN = credentials('k8s-dev-token')
         KUBE_SERVER = 'https://$(minikube ip):8443'
         KUBE_NAMESPACE = 'dev'
         DOCKER_IMAGE = 'doaahemaid01/my-app:1.0'

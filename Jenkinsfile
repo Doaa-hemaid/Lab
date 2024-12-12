@@ -5,7 +5,7 @@ pipeline {
         stage('Build Image') {
             steps {
                 echo 'Building...'
-                withCredentials([usernamePassword(credentialsId: 'deploy-credentials-id',
+                withCredentials([usernamePassword(credentialsId: 'docker-hub-log',
                                   usernameVariable: 'DEPLOY_USER', passwordVariable: 'DEPLOY_PASSWORD')]) 
                 {
                     sh """

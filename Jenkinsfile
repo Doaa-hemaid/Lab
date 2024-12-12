@@ -2,10 +2,18 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
+        stage('Build Image') {
             steps {
                 echo 'Building...'
-                // Add your build steps here
+                withCredentials([usernamePassword(credentialsId: 'deploy-credentials-id',
+                                  usernameVariable: 'DEPLOY_USER', passwordVariable: 'DEPLOY_PASSWORD')]) 
+                {
+                    sh """
+                        docker build -t doaahemaid01/my-app:1.0 .
+                        echo $passwd | docker login --username $username --password-stdin
+                        docker push doaahemaid01/my-app:1.0 
+                    """
+                }
             }
         }
 

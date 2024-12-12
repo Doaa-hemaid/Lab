@@ -34,7 +34,7 @@ pipeline {
                 sh """
                     oc login $OPENSHIFT_SERVER --token=$OPENSHIFT_TOKEN --insecure-skip-tls-verify
                     oc project $OPENSHIFT_PROJECT
-                    oc set image deployment/my-app-deployment my-app=doaahemaid01/my-app:1.0
+                    oc create deployment my-app --image=doaahemaid01/my-app:1.0
                     oc rollout status deployment/your-app
                 """
             }

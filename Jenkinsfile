@@ -9,7 +9,7 @@ pipeline {
         stage('Build Image') {
             steps {
                 echo 'Building...'
-                DockerBuildPush()
+                DockerBuildPush('doaahemaid01/my-app:1.0')
             }
         }
 

@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment { 
-        OPENSHIFT_TOKEN = credentials('openshift-token-id') 
+        OPENSHIFT_TOKEN = credentials('open-shift-token	') 
         OPENSHIFT_SERVER = 'https://api.ocp-training.ivolve-test.com:6443' 
         OPENSHIFT_PROJECT = 'doaahemaid' } 
     stages {

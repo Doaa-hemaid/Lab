@@ -1,6 +1,9 @@
 pipeline {
     agent any
-
+    environment { 
+        OPENSHIFT_TOKEN = credentials('openshift-token-id') 
+        OPENSHIFT_SERVER = 'https://api.ocp-training.ivolve-test.com:6443' 
+        OPENSHIFT_PROJECT = 'doaahemaid' } 
     stages {
         stage('Build Image') {
             steps {
@@ -27,7 +30,13 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying...'
-                // Add your deployment steps here
+               echo 'Deploying to OpenShift...'
+                sh """
+                    oc login $OPENSHIFT_SERVER --token=$OPENSHIFT_TOKEN --insecure-skip-tls-verify
+                    oc project $OPENSHIFT_PROJECT
+                    oc set image deployment/my-app-deployment my-app=doaahemaid01/my-app:1.0
+                    oc rollout status deployment/your-app
+                """
             }
         }
     }

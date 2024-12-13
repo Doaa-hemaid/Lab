@@ -1,9 +1,9 @@
----
+--- # Deployment Configuration
 kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: my-app
-  namespace: default
+  namespace: dev # Updated namespace to dev
   labels:
     app: my-app
 spec:
@@ -19,14 +19,15 @@ spec:
       containers:
       - name: my-app
         image: "doaahemaid01/my-app:1.0"
-        ports:
-          - containerPort: 3000
+
 ---
+
+--- # Service Configuration
 apiVersion: v1
 kind: Service
 metadata:
   name: my-app
-  namespace: default
+  namespace: dev # Updated namespace to dev
 spec:
   selector:
     app: my-app

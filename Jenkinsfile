@@ -23,7 +23,7 @@ pipeline {
             steps {
                 echo 'Deploying to Dev namespace...'
                withCredentials([
-            string(credentialsId: 'my_kubernetes', variable: 'api_token')
+            string(credentialsId: 'k8s-dev-token', variable: 'api_token')
             ]) {
              sh 'kubectl --token $api_token --server https://192.168.49.2:8443  --insecure-skip-tls-verify=true --validate=false apply -f myapp.yaml '
                }

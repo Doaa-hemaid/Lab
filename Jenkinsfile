@@ -36,8 +36,7 @@ pipeline {
             steps {
                 echo 'Setting up SSH Tunnel to Minikube machine...'
                 sh """
-                    ssh -f -L  8443:$MINIKUBEIP:8443 dhemaid@192.168.225.131 -N
-                    ls
+                    
                
                 """
             }
@@ -48,6 +47,8 @@ pipeline {
                 echo 'Deploying to Dev namespace...'
                 withCredentials([string(credentialsId: 'k8s-dev-token', variable: 'api_token')]) {
                     sh """
+                        ssh -f -L  8443:$MINIKUBEIP:8443 dhemaid@192.168.225.131 -N
+                        curl -k https://192.168.49.2:8443/api
                         kubectl --token $api_token --server https://$MINIKUBEIP:8443 \
                         --insecure-skip-tls-verify=true --validate=false apply -f myapp.yaml
                     """

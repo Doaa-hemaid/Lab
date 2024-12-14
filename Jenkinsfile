@@ -6,7 +6,7 @@ pipeline {
         DOCKER_IMAGE_BASE = 'doaahemaid01/my-app'
         IMAGE_TAG = "${env.BUILD_ID}-${new Date().format('yyyyMMddHHmmss')}"
         DOCKER_IMAGE = "${DOCKER_IMAGE_BASE}:${IMAGE_TAG}"
-        MINIKUBEIP = 192.168.49.2
+        MINIKUBEIP = '192.168.49.2'
     }
 
     stages {

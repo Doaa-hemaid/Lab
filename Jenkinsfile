@@ -2,7 +2,6 @@ pipeline {
    agent { label 'ivolve' }
 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('docker-hub-log')
         DOCKER_IMAGE_BASE = 'doaahemaid01/my-app'
         IMAGE_TAG = "${env.BUILD_ID}-${new Date().format('yyyyMMddHHmmss')}"
         DOCKER_IMAGE = "${DOCKER_IMAGE_BASE}:${IMAGE_TAG}"

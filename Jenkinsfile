@@ -35,26 +35,27 @@ pipeline {
        stage('Setup SSH Tunnel') {
             steps {
                 echo 'Setting up SSH Tunnel to Minikube machine...'
-                sh """
-                    
+                sshagent(['ssh-remote-credentials']) { 
+               sh """
+                    ssh -o StrictHostKeyChecking=no dhemaid@192.168.225.131 \\
+                    'echo SSH connection successful'
+                     who
                
                 """
-            }
+            } }
         }
 
         stage('Deploy to Dev Namespace') {
             steps {
                 echo 'Deploying to Dev namespace...'
                 withCredentials([string(credentialsId: 'k8s-dev-token', variable: 'api_token')]) {
-                   sshagent(['ssh-remote-credentials']) {
+                  
                     sh """
-                        ssh -o StrictHostKeyChecking=no dhemaid@192.168.225.131 \\
-                        'echo SSH connection successful'
-                        who
+                        
                         kubectl --token $api_token --server https://$MINIKUBEIP:8443 \
                         --insecure-skip-tls-verify=true --validate=false apply -f myapp.yaml
                     """
-                   }
+                   
                     
                 }
             }

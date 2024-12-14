@@ -1,5 +1,5 @@
 pipeline {
-   agent { label 'agent-node' }
+   agent { label 'ivolve' }
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('docker-hub-log')
@@ -47,7 +47,7 @@ pipeline {
                 echo 'Deploying to Dev namespace...'
                 withCredentials([string(credentialsId: 'k8s-dev-token', variable: 'api_token')]) {
                     sh """
-                        ssh -f -L  8443:$MINIKUBEIP:8443 dhemaid@192.168.225.131 -N
+                        
                         who
                         kubectl --token $api_token --server https://$MINIKUBEIP:8443 \
                         --insecure-skip-tls-verify=true --validate=false apply -f myapp.yaml

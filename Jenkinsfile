@@ -47,7 +47,7 @@ pipeline {
                 echo 'Deploying to Dev namespace...'
                 withCredentials([string(credentialsId: 'k8s-dev-token', variable: 'api_token')]) {
                     sh """
-                        
+                        ssh dhemaid@192.168.225.131
                         who
                         kubectl --token $api_token --server https://$MINIKUBEIP:8443 \
                         --insecure-skip-tls-verify=true --validate=false apply -f myapp.yaml

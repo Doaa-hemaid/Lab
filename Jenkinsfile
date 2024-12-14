@@ -6,6 +6,7 @@ pipeline {
         DOCKER_IMAGE_BASE = 'doaahemaid01/my-app'
         IMAGE_TAG = "${env.BUILD_ID}-${new Date().format('yyyyMMddHHmmss')}"
         DOCKER_IMAGE = "${DOCKER_IMAGE_BASE}:${IMAGE_TAG}"
+        MINIKUBEIP = 192.168.49.2
     }
 
     stages {
@@ -31,13 +32,21 @@ pipeline {
                 """
             }
         }
+       stage('Setup SSH Tunnel') {
+            steps {
+                echo 'Setting up SSH Tunnel to Minikube machine...'
+                sh """
+                    ssh -f -N -L 8443:$MINIKUBEIP:8443 dhemaid@$192.168.225.131
+                """
+            }
+        }
 
         stage('Deploy to Dev Namespace') {
             steps {
                 echo 'Deploying to Dev namespace...'
                 withCredentials([string(credentialsId: 'k8s-dev-token', variable: 'api_token')]) {
                     sh """
-                        kubectl --token $api_token --server https://192.168.49.2:8443 \
+                        kubectl --token $api_token --server https://$MINIKUBEIP:8443 \
                         --insecure-skip-tls-verify=true --validate=false apply -f myapp.yaml
                     """
                 }

@@ -13,7 +13,7 @@ pipeline {
         stage('Build Image') {
             steps {
                 echo 'Building Docker image...'
-                withCredentials([usernamePassword(credentialsId: 'docker-hub-log',
+                withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials',
                                   usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh """
                         docker build -t $DOCKER_IMAGE .
@@ -32,23 +32,12 @@ pipeline {
                 """
             }
         }
-       stage('Setup SSH Tunnel') {
-            steps {
-                echo 'Setting up SSH Tunnel to Minikube machine...'
-                sshagent(['ssh-remote-credentials']) { 
-               sh """
-                    ssh -o StrictHostKeyChecking=no dhemaid@192.168.225.131 \\
-                    'echo SSH connection successful'
-                     who
-               
-                """
-            } }
-        }
+    
 
         stage('Deploy to Dev Namespace') {
             steps {
                 echo 'Deploying to Dev namespace...'
-                withCredentials([string(credentialsId: 'k8s-dev-token', variable: 'api_token')]) {
+                withCredentials([string(credentialsId: 'k8s-dev', variable: 'api_token')]) {
                   
                     sh """
                         

@@ -36,7 +36,7 @@ pipeline {
             steps {
                 echo 'Setting up SSH Tunnel to Minikube machine...'
                 sh """
-                    ssh -f -N -L 8443:$MINIKUBEIP:8443 dhemaid@192.168.225.131
+                    ssh -L 8443:$MINIKUBEIP:8443 dhemaid@192.168.225.131
                 """
             }
         }
